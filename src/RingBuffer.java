@@ -4,9 +4,11 @@ public class RingBuffer<T> {
 
     public class Reader {
 
-        private RingBuffer<T> buffer;
+        private final RingBuffer<T> buffer;
 
-        private Reader() {}
+        private Reader(RingBuffer<T> buffer) {
+            this.buffer = buffer;
+        }
 
         public T read() {
             return this.buffer.read(this);
@@ -15,9 +17,11 @@ public class RingBuffer<T> {
 
     public class Writer {
 
-        private RingBuffer<T> buffer;
+        private final RingBuffer<T> buffer;
 
-        private Writer() {}
+        private Writer(RingBuffer<T> buffer) {
+            this.buffer = buffer;
+        }
 
         public void write(T item) {
             this.buffer.write(item);
@@ -64,14 +68,14 @@ public class RingBuffer<T> {
     }
 
     public Reader createReader() {
-        Reader reader = new Reader();
+        Reader reader = new Reader(this);
         this.readIndices.put(reader, this.newestItemIndex);
         return reader;
     }
 
     public Writer getWriterInstance() {
         if (this.writer == null) {
-            this.writer = new Writer();
+            this.writer = new Writer(this);
         }
         return this.writer;
     }
