@@ -3,29 +3,17 @@ public class Main {
     public static void main(String[] args) {
         RingBuffer<Integer> ringBuffer = new RingBuffer<>(5);
 
-        ringBuffer.write(1);
-        ringBuffer.write(2);
-        ringBuffer.write(3);
-        ringBuffer.write(4);
-        ringBuffer.write(5);
+        RingBuffer<Integer>.Reader reader1 = ringBuffer.createReader();
+        RingBuffer<Integer>.Reader reader2 = ringBuffer.createReader();
+
+        RingBuffer<Integer>.Writer writer = ringBuffer.getWriterInstance();
+
+        writer.write(1);
+        writer.write(2);
+        writer.write(3);
+        writer.write(4);
+        writer.write(5);
         System.out.println("Wrote 1-5 to buffer");
-
-        ringBuffer.printBuffer();
-
-        ringBuffer.write(6);
-        System.out.println("Wrote 6 to buffer");
-        ringBuffer.printBuffer();
-
-        System.out.println("Read: " + ringBuffer.read());
-        System.out.println("Read: " + ringBuffer.read());
-
-        ringBuffer.printBuffer();
-
-        ringBuffer.write(7);
-        System.out.println("Wrote 7 to buffer");
-        ringBuffer.printBuffer();
-
-        System.out.println("Read: " + ringBuffer.read());
         ringBuffer.printBuffer();
     }
 }
