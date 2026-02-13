@@ -16,7 +16,7 @@ public class RingBuffer<T> {
         return (index + 1) % this.size;
     }
 
-    public void add(T item) {
+    public void write(T item) {
         if (item == null) throw new NullPointerException("Null values are not supported");
 
         if (this.writeIndex == this.readIndex && this.buffer[this.readIndex] != null)
