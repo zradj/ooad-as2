@@ -5,13 +5,26 @@ public class RingBuffer<T> {
     public class Reader {
 
         private final RingBuffer<T> buffer;
+        private int sequenceNum;
 
         private Reader(RingBuffer<T> buffer) {
             this.buffer = buffer;
+            this.sequenceNum = buffer.getSequenceNum();
         }
 
         public T read() {
-            return this.buffer.read(this);
+            if (this.buffer.getSequenceNum() <= this.sequenceNum) {
+                return null;
+            }
+
+            if (this.buffer.getSequenceNum() - this.sequenceNum > this.buffer.getSize()) {
+                this.sequenceNum = this.buffer.getSequenceNum() - this.buffer.getSize() + 1;
+            } else {
+                this.sequenceNum++;
+            }
+
+            int index = computeIndex(this.sequenceNum);
+            return this.buffer.read(index);
         }
     }
 
@@ -30,47 +43,41 @@ public class RingBuffer<T> {
 
     private final int size;
     private final Object[] buffer;
-    private final Map<Reader, Integer> readIndices;
     private Writer writer;
-    private int writeIndex = 0;
-    private int newestItemIndex = 0;
+    private int sequenceNum = -1;
 
     public RingBuffer(int size) {
         this.size = size;
         this.buffer = new Object[size];
-        this.readIndices = new HashMap<>();
     }
 
-    private int nextIndex(int index) {
-        return (index + 1) % this.size;
+    private int computeIndex(int sequenceNum) {
+        return sequenceNum % this.size;
     }
 
     private void write(T item) {
         if (item == null) throw new NullPointerException("Null values are not supported");
 
-        for (Map.Entry<Reader, Integer> entry : this.readIndices.entrySet()) {
-            int readIndex = entry.getValue();
-            if (readIndex == this.writeIndex && buffer[readIndex] != null)
-                entry.setValue(nextIndex(readIndex));
-        }
-
-        this.buffer[this.writeIndex] = item;
-        this.newestItemIndex = this.writeIndex;
-        this.writeIndex = nextIndex(this.writeIndex);
+        this.sequenceNum++;
+        int index = computeIndex(this.sequenceNum);
+        this.buffer[index] = item;
     }
 
-    private T read(Reader reader) {
-        int readIndex = this.readIndices.get(reader);
-        @SuppressWarnings("unchecked")
-        T result = (T) this.buffer[readIndex];
-        this.readIndices.put(reader, nextIndex(readIndex));
-        return result;
+    private T read(int index) {
+        //noinspection unchecked
+        return (T) this.buffer[index];
+    }
+
+    private int getSequenceNum() {
+        return this.sequenceNum;
+    }
+
+    public int getSize() {
+        return this.size;
     }
 
     public Reader createReader() {
-        Reader reader = new Reader(this);
-        this.readIndices.put(reader, this.newestItemIndex);
-        return reader;
+        return new Reader(this);
     }
 
     public Writer getWriterInstance() {
