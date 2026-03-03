@@ -14,7 +14,7 @@ Note: This implementation is **not** thread-safe.
 
 ## Running and testing
 
-To run this project, you need to have Java installed on your project.
+To run this project, you need to have Java installed on your computer.
 The project was written using JDK 21 and thus it is the recommended JDK version to use.
 However, it is likely that the project is compatible with the older versions due to its simplicity.
 
