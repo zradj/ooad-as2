@@ -1,6 +1,8 @@
 # Ring Buffer
 
-This project implements a simple version of **[Ring Buffer](https://en.wikipedia.org/wiki/Circular_buffer)** with multiple readers and one writer.
+A Java implementation of a **[Ring Buffer](https://en.wikipedia.org/wiki/Circular_buffer)** for the Object Oriented Analysis & Design course at ADA University.
+
+This project implements a simple version of a Ring Buffer with multiple readers and one writer.
 The Ring Buffer has a fixed capacity of `N` elements.
 If the end of the structure is reached, reading resumes from the beginning (thus forming a ring).
 Multiple readers can read from the buffer at different positions.
@@ -33,8 +35,8 @@ The `Main.java` file contains the demo of the implementation. You can use an IDE
    java Main
    ```
 
-To test the project, you can modify the `Main.java` directly.
-You can use the `printBuffer()` debug method from `RingBuffer` to print the internal array.
+The project does not use unit tests. To test the project, you can add them from scratch or modify the `Main.java` directly.
+For the second option, you can use the `printBuffer()` debug method from `RingBuffer` to print the internal array.
 Use `read()` and `write(item)` from `Reader` and `Writer`, respectively, to perform operations on the Ring Buffer.
 
 ## Design
