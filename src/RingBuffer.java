@@ -7,16 +7,16 @@ public class RingBuffer<T> {
         private long sequenceNum;
 
         private Reader() {
-            this.sequenceNum = RingBuffer.this.getSequenceNum();
+            this.sequenceNum = RingBuffer.this.getGlobalSeq();
         }
 
         public T read() {
-            if (RingBuffer.this.getSequenceNum() <= this.sequenceNum) {
+            if (RingBuffer.this.getGlobalSeq() <= this.sequenceNum) {
                 return null;
             }
 
-            if (RingBuffer.this.getSequenceNum() - this.sequenceNum > RingBuffer.this.getSize()) {
-                this.sequenceNum = RingBuffer.this.getSequenceNum() - RingBuffer.this.getSize() + 1;
+            if (RingBuffer.this.getGlobalSeq() - this.sequenceNum > RingBuffer.this.getSize()) {
+                this.sequenceNum = RingBuffer.this.getGlobalSeq() - RingBuffer.this.getSize() + 1;
             } else {
                 this.sequenceNum++;
             }
@@ -36,7 +36,7 @@ public class RingBuffer<T> {
     private final int size;
     private final Object[] buffer;
     private Writer writer;
-    private long sequenceNum = -1;
+    private long globalSeq = -1;
 
     public RingBuffer(int size) {
         this.size = size;
@@ -50,8 +50,8 @@ public class RingBuffer<T> {
     private void write(T item) {
         if (item == null) throw new NullPointerException("Null values are not supported");
 
-        this.sequenceNum++;
-        int index = computeIndex(this.sequenceNum);
+        this.globalSeq++;
+        int index = computeIndex(this.globalSeq);
         this.buffer[index] = item;
     }
 
@@ -60,8 +60,8 @@ public class RingBuffer<T> {
         return (T) this.buffer[index];
     }
 
-    private long getSequenceNum() {
-        return this.sequenceNum;
+    private long getGlobalSeq() {
+        return this.globalSeq;
     }
 
     public int getSize() {
