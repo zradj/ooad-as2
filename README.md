@@ -18,7 +18,7 @@ To run this project, you need to have Java installed on your computer.
 The project was written using JDK 21 and thus it is the recommended JDK version to use.
 However, it is likely that the project is compatible with the older versions due to its simplicity.
 
-The `Main.java` file contains a demo of the implementation. You can use an IDE like IntelliJ IDEA to run it. Alternatively, you can do the following:
+The `Main.java` file contains the demo of the implementation. You can use an IDE like IntelliJ IDEA to run it. Alternatively, you can do the following:
 
 1. Change the directory to `src`:
    ```
@@ -62,7 +62,7 @@ The `read()` method allows users to read from the Ring Buffer. During the readin
 1. **Reader's sequence number is smaller than the global sequence number but the distance between them is bigger than `N`**.
    This means that the item at reader's current internal sequence number has been overwritten and thus might not be the oldest one available because of the circular structure of the Ring Buffer.
    In this case, the reader "jumps" to the oldest item (`globalSeq - N + 1`) and returns it.
-1. **Reader's sequence number is smaller than the global sequence number and the distance between is smaller than `N`**.
+1. **Reader's sequence number is smaller than the global sequence number and the distance between them is smaller than `N`**.
     There is some item that has not been yet read; it is returned.
 1. **Reader's sequence number is larger or equal to the global sequence number**.
    This indicates that the reader has already read the newest available item and there are no items beyond this point. In this case, `null` is returned.
