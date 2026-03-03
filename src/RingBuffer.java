@@ -4,7 +4,7 @@ public class RingBuffer<T> {
 
     public class Reader {
 
-        private int sequenceNum;
+        private long sequenceNum;
 
         private Reader() {
             this.sequenceNum = RingBuffer.this.getSequenceNum();
@@ -36,15 +36,15 @@ public class RingBuffer<T> {
     private final int size;
     private final Object[] buffer;
     private Writer writer;
-    private int sequenceNum = -1;
+    private long sequenceNum = -1;
 
     public RingBuffer(int size) {
         this.size = size;
         this.buffer = new Object[size];
     }
 
-    private int computeIndex(int sequenceNum) {
-        return sequenceNum % this.size;
+    private int computeIndex(long sequenceNum) {
+        return Math.toIntExact(sequenceNum % this.size);
     }
 
     private void write(T item) {
@@ -60,7 +60,7 @@ public class RingBuffer<T> {
         return (T) this.buffer[index];
     }
 
-    private int getSequenceNum() {
+    private long getSequenceNum() {
         return this.sequenceNum;
     }
 
