@@ -28,14 +28,8 @@ public class RingBuffer<T> {
 
     public class Writer {
 
-        private final RingBuffer<T> buffer;
-
-        private Writer(RingBuffer<T> buffer) {
-            this.buffer = buffer;
-        }
-
         public void write(T item) {
-            this.buffer.write(item);
+            RingBuffer.this.write(item);
         }
     }
 
@@ -80,7 +74,7 @@ public class RingBuffer<T> {
 
     public Writer getWriterInstance() {
         if (this.writer == null) {
-            this.writer = new Writer(this);
+            this.writer = new Writer();
         }
         return this.writer;
     }
