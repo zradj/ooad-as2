@@ -14,7 +14,7 @@ Note: This implementation is **not** thread-safe.
 
 ---
 
-## Running and testing
+## 🚀 Running and testing
 
 To run this project, you need to have Java installed on your computer.
 The project was written using JDK 21 and thus it is the recommended JDK version to use.
@@ -39,7 +39,7 @@ The project does not use unit tests. To test the project, you can add them from 
 For the second option, you can use the `printBuffer()` debug method from `RingBuffer` to print the internal array.
 Use `read()` and `write(item)` from `Reader` and `Writer`, respectively, to perform operations on the Ring Buffer.
 
-## Design
+## 📐 Design
 
 The Ring Buffer (`RingBuffer.java`) is designed as a single class, `RingBuffer`, with two nested classes: `Reader` and `Writer`.
 
@@ -73,7 +73,7 @@ The `read()` method allows users to read from the Ring Buffer. During the readin
 
 This class is a singleton that allows the users to write to the Ring Buffer. Its `write(item)` method relays the data to `RingBuffer`, which updates the array and the global sequence number.
 
-## UML Diagrams
+## 📊 UML Diagrams
 
 ### Class Diagram
 <img src="images/diagrams/ClassDiagram.png" alt="Class Diagram" width="400">
