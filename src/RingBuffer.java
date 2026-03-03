@@ -4,27 +4,25 @@ public class RingBuffer<T> {
 
     public class Reader {
 
-        private final RingBuffer<T> buffer;
         private int sequenceNum;
 
-        private Reader(RingBuffer<T> buffer) {
-            this.buffer = buffer;
-            this.sequenceNum = buffer.getSequenceNum();
+        private Reader() {
+            this.sequenceNum = RingBuffer.this.getSequenceNum();
         }
 
         public T read() {
-            if (this.buffer.getSequenceNum() <= this.sequenceNum) {
+            if (RingBuffer.this.getSequenceNum() <= this.sequenceNum) {
                 return null;
             }
 
-            if (this.buffer.getSequenceNum() - this.sequenceNum > this.buffer.getSize()) {
-                this.sequenceNum = this.buffer.getSequenceNum() - this.buffer.getSize() + 1;
+            if (RingBuffer.this.getSequenceNum() - this.sequenceNum > RingBuffer.this.getSize()) {
+                this.sequenceNum = RingBuffer.this.getSequenceNum() - RingBuffer.this.getSize() + 1;
             } else {
                 this.sequenceNum++;
             }
 
             int index = computeIndex(this.sequenceNum);
-            return this.buffer.read(index);
+            return RingBuffer.this.read(index);
         }
     }
 
@@ -77,7 +75,7 @@ public class RingBuffer<T> {
     }
 
     public Reader createReader() {
-        return new Reader(this);
+        return new Reader();
     }
 
     public Writer getWriterInstance() {
