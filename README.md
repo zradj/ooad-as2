@@ -34,10 +34,26 @@ The `Main.java` file contains the demo of the implementation. You can use an IDE
    ```
    java Main
    ```
+Unit tests have been supplied by another student of the course (Emil Mirzazada) according to the last assignment's instructions. The remaining portion of this section was written by this student:
 
-The project does not use unit tests. To test the project, you can add them from scratch or modify the `Main.java` directly.
-For the second option, you can use the `printBuffer()` debug method from `RingBuffer` to print the internal array.
-Use `read()` and `write(item)` from `Reader` and `Writer`, respectively, to perform operations on the Ring Buffer.
+---
+
+#### 🧪 Running the unit test suite
+
+A JUnit 5 unit test suite is available under `tests/`. It requires [Apache Maven](https://maven.apache.org/) to be installed.
+
+Run from the repo root:
+```
+mvn test
+```
+
+Maven will download JUnit Jupiter 5.10.2 on first run, compile `src/` and `tests/`, and execute the full suite.
+
+**Custom Maven layout:** production sources stay at `src/` (unchanged); test sources live at `tests/`. Both directories are wired into `pom.xml` via `<sourceDirectory>` and `<testSourceDirectory>`.
+
+**Known failing test:** `OoStructuralContractTest.writerHasNoPublicConstructor` — this is a documented defect in the production code (see [`tests/UNTESTABLE_ISSUES.md`](tests/UNTESTABLE_ISSUES.md)).
+
+For a full list of behaviors not covered by the suite, see [`tests/UNTESTABLE_ISSUES.md`](tests/UNTESTABLE_ISSUES.md).
 
 ## 📐 Design
 
@@ -83,20 +99,3 @@ This class is a singleton that allows the users to write to the Ring Buffer. Its
 
 ### Write Sequence Diagram
 <img src="images/diagrams/WriteSequenceDiagram.png" alt="Read Sequence Diagram" width="400">
-
-## 🧪 Running the unit test suite
-
-A JUnit 5 unit test suite is available under `tests/`. It requires [Apache Maven](https://maven.apache.org/) to be installed.
-
-Run from the repo root:
-```
-mvn test
-```
-
-Maven will download JUnit Jupiter 5.10.2 on first run, compile `src/` and `tests/`, and execute the full suite.
-
-**Custom Maven layout:** production sources stay at `src/` (unchanged); test sources live at `tests/`. Both directories are wired into `pom.xml` via `<sourceDirectory>` and `<testSourceDirectory>`.
-
-**Known failing test:** `OoStructuralContractTest.writerHasNoPublicConstructor` — this is a documented defect in the production code (see [`tests/UNTESTABLE_ISSUES.md`](tests/UNTESTABLE_ISSUES.md)).
-
-For a full list of behaviors not covered by the suite, see [`tests/UNTESTABLE_ISSUES.md`](tests/UNTESTABLE_ISSUES.md).
